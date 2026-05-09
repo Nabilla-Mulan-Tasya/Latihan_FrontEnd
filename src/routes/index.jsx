@@ -3,6 +3,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import ProdukList from "../pages/ProdukList";
 import Dashboard from "../pages/Dashboard";
+import POSPage from "../pages/POSPage";
 
 function MainRoutes() {
   return (
@@ -11,6 +12,7 @@ function MainRoutes() {
       <Route path="/register" element={<Register />} />
       <Route path="/produklist" element={<ProdukList />} />
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/pos" element={<POSPage />} />
     </Routes>
   );
 }
