@@ -7,6 +7,7 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -19,15 +20,37 @@ function Login() {
         password,
       });
 
-      // Simpan token
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
+      console.log(response.data);
+
+      // Ambil token dari API
+      const token =
+        response.data.token || response.data.access_token;
+
+      if (!token) {
+        toast.error('Token tidak ditemukan');
+        return;
+      }
+
+      // Simpan token & users
+      localStorage.setItem('token', token);
+
+      if (response.data.users) {
+        localStorage.setItem(
+          'users',
+          JSON.stringify(response.data.users)
+        );
+      }
 
       toast.success('Login berhasil!');
+
       navigate('/dashboard');
     } catch (error) {
       console.error(error);
-      toast.error(error.response?.data?.message || 'Login gagal. Cek email/password');
+
+      toast.error(
+        error.response?.data?.message ||
+          'Login gagal. Cek email/password'
+      );
     } finally {
       setLoading(false);
     }
@@ -36,16 +59,29 @@ function Login() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
       <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center mb-2">Login</h1>
-        <p className="text-gray-500 text-center mb-8">Masuk ke akun Anda</p>
+        <h1 className="text-3xl font-bold text-center mb-2">
+          Login
+        </h1>
 
-        <form onSubmit={handleLogin} className="space-y-6">
+        <p className="text-gray-500 text-center mb-8">
+          Masuk ke akun Anda
+        </p>
+
+        <form
+          onSubmit={handleLogin}
+          className="space-y-6"
+        >
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Email
+            </label>
+
             <input
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) =>
+                setEmail(e.target.value)
+              }
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="contoh@email.com"
               required
@@ -53,11 +89,16 @@ function Login() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Password
+            </label>
+
             <input
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) =>
+                setPassword(e.target.value)
+              }
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="••••••••"
               required
@@ -69,13 +110,18 @@ function Login() {
             disabled={loading}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition disabled:opacity-70"
           >
-            {loading ? 'Sedang login...' : 'Login'}
+            {loading
+              ? 'Sedang login...'
+              : 'Login'}
           </button>
         </form>
 
         <p className="text-center mt-6 text-gray-600">
           Belum punya akun?{' '}
-          <Link to="/register" className="text-blue-600 hover:underline font-medium">
+          <Link
+            to="/register"
+            className="text-blue-600 hover:underline font-medium"
+          >
             Daftar sekarang
           </Link>
         </p>

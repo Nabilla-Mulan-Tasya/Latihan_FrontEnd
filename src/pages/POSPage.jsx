@@ -4,7 +4,8 @@ import axios from 'axios';
 import PaymentModal from '../components/pos/PaymentModal';
 import ReceiptModal from '../components/pos/ReceiptModal';
 
-const BASE_URL = 'http://127.0.0.1:8000/api';
+ const BASE_URL = 'http://127.0.0.1:8000/api';
+// const BASE_URL = 'https://laravel-api.kebunkode.com/api';
 
 const formatRupiah = (number) =>
   new Intl.NumberFormat('id-ID', {
@@ -182,6 +183,7 @@ export default function POSPage() {
                   {product.gambar ? (
                     <img
                       src={`http://127.0.0.1:8000/storage/${product.gambar}`}
+                      // src={`https://laravel-api.kebunkode.com/storage/${product.gambar}`}
                       alt={product.nama_barang}
                       className="w-full h-full object-cover"
                     />
@@ -292,7 +294,8 @@ export default function POSPage() {
 
             <button
               onClick={() => setShowPayment(true)}
-              disabled={cart.length === 0 || !currentUser}
+              disabled={cart.length === 0}
+              // disabled={cart.length === 0 || !currentUser}
               className="flex-1 py-2 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 disabled:opacity-40"
             >
               💳 Bayar

@@ -4,6 +4,8 @@ import Register from "../pages/Register";
 import ProdukList from "../pages/ProdukList";
 import Dashboard from "../pages/Dashboard";
 import POSPage from "../pages/POSPage";
+import PesananPage from "../pages/PesananPage";
+import PelangganPage from "../pages/PelangganPage";
 
 function MainRoutes() {
   return (
@@ -13,6 +15,8 @@ function MainRoutes() {
       <Route path="/produklist" element={<ProdukList />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/pos" element={<POSPage />} />
+      <Route path="/pesanan" element={<PesananPage />} />
+      <Route path="/pelanggan" element={<PelangganPage />} />
     </Routes>
   );
 }
